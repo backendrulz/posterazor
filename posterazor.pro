@@ -2,6 +2,8 @@ TARGET = PosteRazor
 
 QT += widgets
 
+CONFIG += c++11 release
+
 win32:DEFINES -= \
     UNICODE
 
@@ -9,7 +11,7 @@ macx:QMAKE_INFO_PLIST = \
     Info.plist
 
 macx:ICON = \
-    posterazor.icns
+    src/posterazor.icns
 
 macx:CONFIG += \
     x86 ppc
@@ -21,7 +23,7 @@ macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = \
     10.3
 
 RC_FILE += \
-    posterazor.rc
+    src/posterazor.rc
 
 # Uncomment the following line in order to build PosteRazor with FreeImage
 #DEFINES += FREEIMAGE_LIB
@@ -35,7 +37,7 @@ exists( /usr/include/poppler/qt5/poppler-qt5.h ) {
 DEFINES += QT_NO_CAST_FROM_ASCII
 
 SOURCES += \
-    main.cpp
+    src/main.cpp
 
 contains (DEFINES, POPPLER_QT5_LIB) {
     unix:INCLUDEPATH += \
@@ -47,16 +49,16 @@ contains (DEFINES, POPPLER_QT5_LIB) {
 
 contains (DEFINES, FREEIMAGE_LIB) {
     SOURCES += \
-        imageloaderfreeimage.cpp
+        src/imageloaderfreeimage.cpp
 
     HEADERS += \
-        imageloaderfreeimage.h
+        src/imageloaderfreeimage.h
 
     win32:INCLUDEPATH += \
-        thirdparty/FreeImage/Dist
+        src/thirdparty/FreeImage/Dist
 
     win32:LIBS += \
-        thirdparty/FreeImage/Dist/FreeImage.lib
+        src/thirdparty/FreeImage/Dist/FreeImage.lib
 
     macx: INCLUDEPATH += \
         /usr/local/include
@@ -65,4 +67,26 @@ contains (DEFINES, FREEIMAGE_LIB) {
         -lfreeimage
 }
 
-include (posterazor.pri)
+include (src/posterazor.pri)
+
+unix {
+    isEmpty(PREFIX) {
+        PREFIX = /usr
+    }
+
+    target.path = $$PREFIX/bin
+
+    shortcutfiles.files = resources/posterazor.desktop
+    shortcutfiles.path = $$PREFIX/share/applications/
+    data.files += resources/posterazor.png
+    data.path = $$PREFIX/share/pixmaps/
+
+    INSTALLS += shortcutfiles
+    INSTALLS += data
+}
+
+INSTALLS += target
+
+DISTFILES += \
+    resources/posterazor.desktop \
+    resources/posterazor.png
