@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=PosteRazor
+GenericName=Make your own poster
+Comment=Splits an image across multiple pages for assembly into a poster
+Exec=PosteRazor
+Icon=posterazor
+Terminal=false
+Type=Application
+Categories=Graphics;2DGraphics;RasterGraphics;
+Keywords=poster;picture;split image;raster;multipage;
+X-AppImage-Version=a8ad8f9
+Name[es_AR]=posterazor.desktop
